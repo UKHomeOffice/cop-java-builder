@@ -5,6 +5,9 @@ on:
     branches:
       - 'gh-actions'
 
+env:
+  IMAGE_NAME: cop-java-builder
+
 jobs:
   get_datetime:
     runs-on: ubuntu-latest
@@ -26,10 +29,18 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Build Java Builder ${{ matrix.java-version }}
+      - name: Build Java Builder ${{ matrix.java-version }} and export to Docker for test
         uses: docker/build-push-action@v3
         with:
           build-args: JAVA_VERSION=${{ matrix.java-version }}
           context: .
-          tags: cop-java-builder:${{ matrix.java-version }}.${{ needs.get_datetime.outputs.datetime }}.0
+          load: true
           pull: true
+          push: false
+          tags: ${{ env.IMAGE_NAME }}:${{ matrix.java-version }}.test
+
+      - name: Basic sanity check of image before push
+        run: docker run --rm ${{ env.IMAGE_NAME }}:${{ matrix.java-version }}.test java --version
+
+      - name: Test Happy
+        run: echo "The test passed"
