@@ -1,0 +1,19 @@
+---
+name: Build Images
+on:
+  workflow_dispatch:
+
+jobs:
+  get_datetime:
+    runs-on: ubuntu-latest
+    outputs:
+      datetime: ${{ steps.datetime.outputs.now }}
+    steps:
+      - id: datetime
+        run: echo "::set-output name=now::$(date +%Y%m%d%H%M)"
+
+  build:
+    runs-on: ubuntu-latest
+    needs: get_datetime
+    steps:
+      - run: echo ${{needs.get_datetime.outputs.datetime}}
