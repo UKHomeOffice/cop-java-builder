@@ -1,4 +1,6 @@
-FROM docker.io/library/eclipse-temurin:18
+ARG JAVA_VERSION
+
+FROM docker.io/library/eclipse-temurin:${JAVA_VERSION}
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 

@@ -18,14 +18,18 @@ jobs:
   build:
     runs-on: ubuntu-latest
     needs: get_datetime
+    strategy:
+      matrix:
+        java-version: ['18', '17']
 
     steps:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Build Image
+      - name: Build Java Builder ${{ matrix.java-version }}
         uses: docker/build-push-action@v3
         with:
+          build-args: JAVA_VERSION=${{ matrix.java-version }}
           context: .
-          tags: cop-java-builder:18.${{needs.get_datetime.outputs.datetime}}.0
+          tags: cop-java-builder:${{ matrix.java-version }}.${{ needs.get_datetime.outputs.datetime }}.0
           pull: true
