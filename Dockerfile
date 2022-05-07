@@ -10,4 +10,4 @@ RUN apt-get update && \
     find /var/cache/apt -type f -print0 | xargs --null rm -f
 
 WORKDIR /root
-ENTRYPOINT ["/bin/bash"]
+CMD ["/bin/bash"]
