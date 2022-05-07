@@ -1,7 +1,9 @@
 ---
 name: Build Images
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - 'gh-actions'
 
 jobs:
   get_datetime:
