@@ -10,6 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       datetime: ${{ steps.datetime.outputs.now }}
+
     steps:
       - id: datetime
         run: echo "::set-output name=now::$(date +%Y%m%d%H%M)"
@@ -17,5 +18,14 @@ jobs:
   build:
     runs-on: ubuntu-latest
     needs: get_datetime
+
     steps:
-      - run: echo ${{needs.get_datetime.outputs.datetime}}
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Build Image
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          tags: cop-java-builder:18.${{needs.get_datetime.outputs.datetime}}.0
+          pull: true
