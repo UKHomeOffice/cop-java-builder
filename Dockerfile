@@ -1,4 +1,6 @@
-FROM docker.io/library/eclipse-temurin:18
+ARG JAVA_VERSION
+
+FROM docker.io/library/eclipse-temurin:${JAVA_VERSION}
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
@@ -8,4 +10,4 @@ RUN apt-get update && \
     find /var/cache/apt -type f -print0 | xargs --null rm -f
 
 WORKDIR /root
-ENTRYPOINT ["/bin/bash"]
+CMD ["/bin/bash"]
