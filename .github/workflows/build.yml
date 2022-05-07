@@ -24,7 +24,7 @@ jobs:
     needs: get_datetime
     strategy:
       matrix:
-        java-version: ['18', '17']
+        java-version: ['11', '16', '17', '18']
 
     steps:
       - name: Checkout
